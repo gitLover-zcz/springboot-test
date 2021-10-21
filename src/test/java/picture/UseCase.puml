@@ -1,0 +1,18 @@
+@startuml
+left to right direction
+actor Guest as g
+package Professional {
+    actor Chief as c
+    actor "Food Critic" as fc
+}
+package Restaurant {
+    usecase "Eat Food" as uc1
+    usecase "Pay For Food" as uc2
+    usecase "Drink" as uc3
+    usecase "Review" as uc4
+}
+g--> uc1
+g--> uc2
+g--> uc3
+fc--> uc4
+@enduml
