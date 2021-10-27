@@ -4,7 +4,8 @@ import java.sql.*;
 
 public class JDBCTest {
     public static void main(String[] args) {
-        Statement statement = null;
+//        Statement statement = null;
+        PreparedStatement ps = null;
         Connection conn = null;
         try {
             // 1、注册
@@ -18,14 +19,16 @@ public class JDBCTest {
             conn = DriverManager.getConnection(url, root, password);
 
             // 3、获取数据库操作对象
-            statement = conn.createStatement();
+//            statement = conn.createStatement();
 
             // 4、执行sql
 
             // 查询
-            String sql = "select * from account where username = 'testuser'";
+            String sql = "select * from account where username = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setNString(1,"testuser");
 //            boolean b = statement.execute(sql);
-            ResultSet resultSet = statement.executeQuery(sql);
+            ResultSet resultSet = ps.executeQuery();
             while(resultSet.next()){
                 // 下面的写法 在工作中 经常这么写
                 int id=resultSet.getInt("account_id");
@@ -55,9 +58,9 @@ public class JDBCTest {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
-            if (statement != null) {
+            if (ps != null) {
                 try {
-                    statement.close();
+                    ps.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
