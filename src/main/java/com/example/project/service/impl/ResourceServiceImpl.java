@@ -88,13 +88,13 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
             }
             return treeVOS;
         } else {
-            QueryWrapper<Resource> query = Wrappers.<Resource>query();
+            QueryWrapper<Resource> query = Wrappers.query();
             query.eq(flag == 1, "rr.role_id", roleId)
                     .isNull("re.parent_id").orderByAsc("re.sort");
             List<TreeVO> treeVOS = baseMapper.listResourceByRoleId(query, roleId);
             treeVOS.forEach(treeVO -> {
                 treeVO.setChecked(false);
-                QueryWrapper<Resource> queryWrapper = Wrappers.<Resource>query();
+                QueryWrapper<Resource> queryWrapper = Wrappers.query();
                 queryWrapper.eq(flag == 1, "rr.role_id", roleId)
                         .eq("re.parent_id", treeVO.getId()).orderByAsc("re.sort");
                 List<TreeVO> children = baseMapper.listResourceByRoleId(queryWrapper, roleId);
